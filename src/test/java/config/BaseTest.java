@@ -62,7 +62,7 @@ public class BaseTest { // Эта строка объявляет начало �
             // options.addArguments("-headless");
             driverThreadLocal.set(new FirefoxDriver(options));
         }
-        else if (browser.equalsIgnoreCase("safari")) {
+        /*else if (browser.equalsIgnoreCase("safari")) {
             SafariOptions options = new SafariOptions();
             options.setCapability("language", "en");
             driverThreadLocal.set(new SafariDriver());
@@ -73,7 +73,7 @@ public class BaseTest { // Эта строка объявляет начало �
             options.setCapability("language", "en");
             //options.addArguments("--headless");
             driverThreadLocal.set(new EdgeDriver(options));
-        }
+        }*/
         else{throw new IllegalArgumentException("Invalid browser "+browser); }
 
         // Этот блок кода получает веб-драйвер с помощью метода getDriver(), максимизирует окно браузера,

@@ -23,7 +23,7 @@ public class MainPage extends BasePage{
      * @return Любой тип, наследованый от BasePage
      * @param <T> Это обобщённый тип данных.
      */
-    public <T extends BasePage> T openTopMenu(String topMenuItem){ //  <T extends BasePage>: Это обобщённый тип данных. Он объявляет тип T,который является подтипом класса BasePage.
+    public static <T extends BasePage> T openTopMenu(String topMenuItem){ //  <T extends BasePage>: Это обобщённый тип данных. Он объявляет тип T,который является подтипом класса BasePage.
         WebElement menuItem = driver.findElement(By.xpath("//a[contains(text(),'"+topMenuItem+"')]"));
         menuItem.click();
 
@@ -34,6 +34,10 @@ public class MainPage extends BasePage{
                 return (T) new AboutPage(driver);// тоже , что и с new HomePage(driver)
             case "LOGIN":
                 return (T) new LoginPage(driver);// тоже , что и с new HomePage(driver)
+            case "ADD" :
+                return (T) new AddPage(driver);
+            case "CONTACTS" :
+                return (T) new ContactsPage(driver);
 
             default: throw new IllegalArgumentException("Somethings wrong"+ topMenuItem);
         }
