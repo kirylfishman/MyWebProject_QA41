@@ -8,6 +8,7 @@ public class PasswordStringGenerator {
         StringBuilder stringBuilder = new StringBuilder();
 
 
+
         // Генерируем символы в верхнем регистре
         for (int i = 0; i < 5; i++) {
             char upperCaseChar = (char) ('A' + Math.random() * ('Z' - 'A' + 1));

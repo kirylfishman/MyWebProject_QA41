@@ -12,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class WindowAndTabTests {
@@ -70,6 +72,84 @@ public class WindowAndTabTests {
         driver.switchTo().window(newWindowHandler);
         WebElement newPageElement = driver.findElement(By.xpath("//h1"));
         newPageElement.click();
+        driver.quit();
+    }
+
+    @Test
+
+    public static void waitForAnElement(){
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().window().maximize();
+        driver.get("http://the-internet.herokuapp.com/dynamic_loading/2");
+        WebElement buttonStart = driver.findElement(By.xpath("//button"));
+        buttonStart.click();
+
+
+
+        WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        WebElement testElement = wait
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id= ''finish]")));
+        testElement.click();
+        driver.quit();
+    }
+
+    @Test
+    public static String findRowByValue(String valueToFInd){
+
+        WebDriver driver = new FirefoxDriver();
+
+        try {
+            driver.manage().window().maximize();
+            driver.get("http://the-internet.herokuapp.com/tables");
+            WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+            WebElement tableElement = wait.until(ExpectedConditions
+                    .visibilityOfElementLocated(By.tagName("table")));
+            List<WebElement> rows = tableElement.findElements (By.tagName("tr"));
+            for (WebElement row: rows){
+                List <WebElement> cells = row.findElements(By.tagName("td"));
+                for (WebElement cell : cells){
+                    if(cell.getText().equals(valueToFInd)){
+                        return row.getText();
+
+                    }
+                }
+            }return null;
+        }finally {
+            driver.quit();
+        }
+    }
+
+
+    @Test
+    public static String findRowByValueLambda(String valueToFInd){
+
+        WebDriver driver = new FirefoxDriver();
+
+        try {
+            driver.manage().window().maximize();
+            driver.get("http://the-internet.herokuapp.com/tables");
+            WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+            WebElement tableElement = wait.until(ExpectedConditions
+                    .visibilityOfElementLocated(By.tagName("table")));
+            List<WebElement> rows = tableElement.findElements (By.tagName("tr"));
+            Optional <WebElement> optionalRow = rows.stream().filter(row->row
+                    .findElements(By.tagName("td"))
+                    .stream().allMatch(cell->cell.getText().equals(valueToFInd))).findFirst();
+            return optionalRow.map(WebElement::getText).orElse(null);
+        }finally {
+            driver.quit();
+        }
+    }
+@Test
+    public void rightMouseClick() throws InterruptedException {
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().window().maximize();
+        driver.get("http://the-internet.herokuapp.com/");
+        WebElement element = driver.findElement(By.xpath("//a[contains(text(), 'Testing')]"));
+        Actions actions = new Actions(driver);
+        actions.contextClick(element).perform();
+
+        Thread.sleep(3000);
         driver.quit();
     }
 }
